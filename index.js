@@ -26,12 +26,10 @@ function removeMpc(filenameMpc) {
 }
 
 function childPromise(command, args) {
-    console.log('childPromise', command, args);
     return new Promise(function (resolve, reject) {
         execFile(command, args, null, function (err, stdout, stderr) {
             if (err) {
-                console.log(err, JSON.stringify(stderr));
-                reject(err);
+                reject(err + JSON.stringify(stderr));
             } else {
                 resolve();
             }
@@ -53,7 +51,6 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
     }
 
     var dimensions = findPageDimensions(phantomJsPage);
-    console.log('dimensions', dimensions.height, dimensions.width);
 
     var filesColumns = [[]],
         filesCells;
@@ -68,7 +65,6 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
                 height: Math.min(limit, dimensions.height - j)
             };
             name = tempDir + '/cell_' + i + '_' + j + '.' + format;
-            console.log('rendering', name);
             phantomJsPage.render(name, format, options.quality);
             filesCells.push(name);
         }
@@ -97,7 +93,6 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
             return filename;
         });
     }).catch(function (error) {
-        console.log('There was an error', error);
         callback(error);
     });
 };

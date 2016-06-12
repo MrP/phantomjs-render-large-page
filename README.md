@@ -36,11 +36,11 @@ For example:
 ## Parameters
 The `renderLargePage` function accepts the following parameters:
 
-    renderLargePage(phantomJSPageObject, outputImage, callback, [options]);
+    renderLargePage(page, filename, callback, [options]);
 
-`phantomJSPageObject` is the page object to render.
+`page` is the PhantomJS page object to render.
 
-`outputImage` is a file path where the output image will be rendered, as you would pass it to PhantomJS' `render` function
+`filename` is a file path where the output image will be rendered, as you would pass it to PhantomJS' `render` function
 
 `callback` is a function that will be called on complete.  callback will be passed an error parameter, that will only be present if there was an error.
 
@@ -53,3 +53,7 @@ The `renderLargePage` function accepts the following parameters:
 `options.quality` it will be passed as the third parameter to PhantomJS' `render` function.  Defaults to undefined (`render` defaults itself to 75)
 
 `options.limit` Side of the square partial images rendered and stitched together later.  Potentially useful to limit memory use.  Defaults to 30720
+
+For more information on supported image formats, quality, etc, see the PhantomJS docs for the `render` functionality:
+
+http://phantomjs.org/api/webpage/method/render.html
