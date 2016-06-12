@@ -1,7 +1,6 @@
 'use strict';
 var fs = require('fs');
 var system = require('system');
-var spawn = require('child_process').spawn;
 var execFile = require('child_process').execFile;
 var Promise = require('promise-polyfill');
 
@@ -42,7 +41,11 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
     options = options || {};
     var tmpDir = options.tmpDir || system.env.TMPDIR || '/tmp';
     var format = options.format || 'png';
-    var limit = options.limit || 30720;
+    var limit = 30720;
+    var parsedOptionsLimit = parseInt(options.limit, 10);
+    if (options.limit && !isNaN(parsedOptionsLimit)) {
+        limit = parsedOptionsLimit;
+    }
 
     var tempDir = tmpDir + '/phantomjs-render-large-page_tmp_' + system.pid;
 

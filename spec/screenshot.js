@@ -12,5 +12,5 @@ var url = 'file://' + fs.absolute(htmlPage);
 page.open(url, function () {
     renderLargePage(page, outFile, function () {
         phantom.exit();
-    }, {cellSize: size});
+    }, {limit: size});
 });

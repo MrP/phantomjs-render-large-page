@@ -8,8 +8,8 @@ var tmpDir = process.env.TMPDIR || '/tmp';
 var tempDir = tmpDir + '/renderLargePage_spec_' + process.pid;
 fs.mkdirSync(tempDir);
 
-process.env.LC_ALL='C';
-
+// Does away with the irritating warning about the fontconfig
+process.env.LC_ALL = 'C';
 
 function renderLargePage(page, image, size) {
     size = size || '';
