@@ -28,14 +28,12 @@
   "homepage": "https://github.com/MrP/phantomjs-render-large-page#readme",
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-http-server": "^2.0.0",
     "grunt-jasmine-nodejs": "^1.5.3",
     "load-grunt-tasks": "^3.5.0",
     "node-resemble-js": "0.0.5",
     "phantomjs-prebuilt": "^2.1.7"
   },
   "dependencies": {
-    "es6-promise": "^3.2.1",
     "promise-polyfill": "^5.2.1"
   }
 }
