@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "grunt test",
-    "install": "echo \"Don't forget to install imagemagick:\nsudo apt-gate update\nsudo apt-gate install imagemagick\""
+    "install": "echo \"Don't forget to install imagemagick:\nsudo apt-get update\nsudo apt-get install imagemagick\""
   },
   "repository": {
     "type": "git",
