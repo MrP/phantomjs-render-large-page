@@ -1,6 +1,6 @@
 {
   "name": "phantomjs-render-large-page",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "PhantomJS can’t render very tall or wide pages (more than 30k pixels). This library is a workaround to do it anyway.",
   "main": "index.js",
   "scripts": {
