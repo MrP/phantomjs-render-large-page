@@ -50,7 +50,7 @@ The `renderLargePage` function accepts the following parameters:
 
 `options.format` it will be passed as the second parameter to PhantomJS' `render` function.  Defaults to 'png'
 
-`options.quality` it will be passed as the third parameter to PhantomJS' `render` function.  Defaults to undefined (`render` defaults itself to 75)
+`options.quality` it will be passed as the third parameter to PhantomJS' `render` function and to ImageMagick's `-quality` option.  Defaults to 100.
 
 `options.limit` Side of the square partial images rendered and stitched together later.  Potentially useful to limit memory use.  Defaults to 30720
 

@@ -18,12 +18,6 @@ function findPageDimensions(page) {
     });
 }
 
-function removeMpc(filenameMpc) {
-    var filenameCache = filenameMpc.replace(/\.mpc$/i, '.cache');
-    fs.remove(filenameMpc);
-    fs.remove(filenameCache);
-}
-
 function childPromise(command, args) {
     return new Promise(function (resolve, reject) {
         execFile(command, args, null, function (err, stdout, stderr) {
@@ -42,6 +36,7 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
     var tmpDir = options.tmpDir || system.env.TMPDIR || '/tmp';
     var format = options.format || 'png';
     var limit = 30720;
+    var quality = options.quality || 100;
     var parsedOptionsLimit = parseInt(options.limit, 10);
     if (options.limit && !isNaN(parsedOptionsLimit)) {
         limit = parsedOptionsLimit;
@@ -68,7 +63,7 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
                 height: Math.min(limit, dimensions.height - j)
             };
             name = tempDir + '/cell_' + i + '_' + j + '.' + format;
-            phantomJsPage.render(name, format, options.quality);
+            phantomJsPage.render(name, format, quality);
             filesCells.push(name);
         }
         filesColumns.push([]);
@@ -78,19 +73,16 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
     return Promise.all(filesColumns.map(function (cellFilenames, columnIndex) {
         return Promise.all(cellFilenames.map(function (cellFilename) {
             return childPromise('convert', [cellFilename, cellFilename + '.mpc']).then(function (code) {
-                // fs.remove(cellFilename);
                 return cellFilename + '.mpc';
             });
         })).then(function (cellFilenamesMpc) {
             var columnFilenameMpc = tempDir + '/column_' + columnIndex + '.mpc';
             return childPromise('convert', cellFilenamesMpc.concat(['-append', columnFilenameMpc])).then(function (code) {
-                // cellFilenamesMpc.forEach(removeMpc);
                 return columnFilenameMpc;
             });
         });
     })).then(function (columnFilenamesMpc) {
-        return childPromise('convert', columnFilenamesMpc.concat(['+append', filename])).then(function (code) {
-            // columnFilenamesMpc.forEach(removeMpc);
+        return childPromise('convert', columnFilenamesMpc.concat(['-quality', '' + quality, '+append', filename])).then(function (code) {
             fs.removeTree(tempDir);
             callback();
             return filename;
