@@ -17,6 +17,12 @@ function renderLargePage(page, image, size) {
     execSync(command);
 }
 
+function renderLargePageViewportSize(page, image, size) {
+    size = size || '';
+    var command = 'node_modules/phantomjs-prebuilt/bin/phantomjs spec/screenshotViewportSize.js spec/test-pages/' + page + ' ' + tempDir + '/' + image + ' ' + size;
+    execSync(command);
+}
+
 function compareImages(generatedImage, existingImage, done) {
     resemble(tempDir + '/' +generatedImage).compareTo('spec/' + existingImage).onComplete(function(data){
     	expect(data.misMatchPercentage).toBe('0.00');
@@ -42,6 +48,13 @@ describe('When used on a tall image', function () {
 describe('When used on a wide image', function () {
     it('should work', function (done) {
         renderLargePage('wide.html', 'wide.png');
+        compareImages('wide.png', 'wide-test.png', done);
+    });
+});
+
+describe('When used on a wide image changing the viewportSize page property', function () {
+    it('should work', function (done) {
+        renderLargePageViewportSize('wide.html', 'wide.png');
         compareImages('wide.png', 'wide-test.png', done);
     });
 });
