@@ -4,7 +4,7 @@
   "description": "PhantomJS can’t render very tall or wide pages (more than 30k pixels). This library is a workaround to do it anyway.",
   "main": "index.js",
   "scripts": {
-    "test": "grunt test",
+    "test": "jasmine",
     "install": "echo \"Don't forget to install imagemagick:\nsudo apt-get update\nsudo apt-get install imagemagick\""
   },
   "repository": {
@@ -20,16 +20,14 @@
     "tall",
     "long"
   ],
-  "author": "Victor Rodriguez Gil",
+  "author": "Victor Rodriguez Gil <victor@wsdev.tech>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MrP/phantomjs-render-large-page/issues"
   },
   "homepage": "https://github.com/MrP/phantomjs-render-large-page#readme",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-jasmine-nodejs": "^1.5.4",
-    "load-grunt-tasks": "^3.5.2",
+    "jasmine": "^2.5.3",
     "node-resemble-js": "^0.2.0",
     "phantomjs-prebuilt": "^2.1.14"
   },
