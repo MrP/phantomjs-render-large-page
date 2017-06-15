@@ -49,6 +49,9 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
     }
 
     var dimensions = findPageDimensions(phantomJsPage);
+    
+    dimensions.width *= phantomJsPage.zoomFactor;
+    dimensions.height *= phantomJsPage.zoomFactor;
 
     var filesColumns = [[]],
         filesCells;
