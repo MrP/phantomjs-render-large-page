@@ -26,11 +26,11 @@
   },
   "homepage": "https://github.com/MrP/phantomjs-render-large-page#readme",
   "devDependencies": {
-    "jasmine": "^2.7.0",
+    "jasmine": "^3.2.0",
     "node-resemble-js": "^0.2.0",
-    "phantomjs-prebuilt": "^2.1.15"
+    "phantomjs-prebuilt": "^2.1.16"
   },
   "dependencies": {
-    "promise-polyfill": "^6.0.2"
+    "promise-polyfill": "^8.1.0"
   }
 }
