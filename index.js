@@ -30,6 +30,13 @@ function childPromise(command, args) {
     });
 }
 
+var figureOutImageMagickExecutable = childPromise('magick', [])
+    .then(function() { return 'magick'; })
+    .catch(function() { return childPromise('convert', []); })
+    .then(function() { return 'convert'; })
+    .catch(function() { return childPromise('magick.exe', []); })
+    .then(function() { return 'magick.exe'; });
+
 module.exports.renderLargePage = function (phantomJsPage, filename, callback, options) {
     callback = callback || function () {};
     options = options || {};
@@ -70,24 +77,27 @@ module.exports.renderLargePage = function (phantomJsPage, filename, callback, op
     }
     filesColumns.pop();
     
-    return Promise.all(filesColumns.map(function (cellFilenames, columnIndex) {
-        return Promise.all(cellFilenames.map(function (cellFilename) {
-            return childPromise('convert', [cellFilename, cellFilename + '.mpc']).then(function (code) {
-                return cellFilename + '.mpc';
+    return figureOutImageMagickExecutable.then(function (imageMagickExecutable) {
+        return Promise.all(filesColumns.map(function (cellFilenames, columnIndex) {
+            return Promise.all(cellFilenames.map(function (cellFilename) {
+                return childPromise(imageMagickExecutable, [cellFilename, cellFilename + '.mpc']).then(function (code) {
+                    return cellFilename + '.mpc';
+                });
+            })).then(function (cellFilenamesMpc) {
+                var columnFilenameMpc = tempDir + '/column_' + columnIndex + '.mpc';
+                return childPromise(imageMagickExecutable, cellFilenamesMpc.concat(['-append', columnFilenameMpc])).then(function (code) {
+                    return columnFilenameMpc;
+                });
             });
-        })).then(function (cellFilenamesMpc) {
-            var columnFilenameMpc = tempDir + '/column_' + columnIndex + '.mpc';
-            return childPromise('convert', cellFilenamesMpc.concat(['-append', columnFilenameMpc])).then(function (code) {
-                return columnFilenameMpc;
+        })).then(function (columnFilenamesMpc) {
+            return childPromise(imageMagickExecutable, columnFilenamesMpc.concat(['-quality', '' + quality, '+append', filename])).then(function (code) {
+                fs.removeTree(tempDir);
+                callback();
+                return filename;
             });
-        });
-    })).then(function (columnFilenamesMpc) {
-        return childPromise('convert', columnFilenamesMpc.concat(['-quality', '' + quality, '+append', filename])).then(function (code) {
-            fs.removeTree(tempDir);
-            callback();
-            return filename;
-        });
-    }).catch(function (error) {
+        })    
+    })
+    .catch(function (error) {
         callback(error);
     });
 };
