@@ -4,3 +4,4 @@ node_js:
 before_install:
   - sudo apt-get update
   - sudo apt-get -y install imagemagick
+  - sudo cp policy.xml /etc/ImageMagick-6/policy.xml
