@@ -25,7 +25,7 @@ function renderLargePageViewportSize(page, image, size) {
 
 function compareImages(generatedImage, existingImage, done) {
     resemble(tempDir + '/' +generatedImage).compareTo('spec/' + existingImage).onComplete(function(data){
-    	expect(data.misMatchPercentage).toBe('0.00');
+    	expect(parseFloat(data.misMatchPercentage) < 0.02).toBe(true);
     	expect(data.isSameDimensions).toBe(true);
     	done();
     });

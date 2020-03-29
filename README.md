@@ -7,6 +7,17 @@ You need imagemagick installed.  In ubuntu, you can install it like this:
     sudo apt-get update
     sudo apt-get install imagemagick
 
+You may need to change its policy at `/etc/ImageMagick-6/policy.xml`.  These are the values that worked for the tests:
+
+  <policy domain="resource" name="memory" value="4096MiB"/>
+  <policy domain="resource" name="map" value="4096MiB"/>
+  <policy domain="resource" name="width" value="128KP"/>
+  <policy domain="resource" name="height" value="128KP"/>
+  <policy domain="resource" name="area" value="1024MB"/>
+  <policy domain="resource" name="disk" value="8GiB"/>
+
+Windows is not supported.
+
 Then
 
     npm install phantomjs-render-large-page --save
